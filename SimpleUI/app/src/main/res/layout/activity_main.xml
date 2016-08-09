@@ -11,7 +11,20 @@
     tools:context="com.example.user.simpleui.MainActivity">
 
     <TextView
-        android:text="Hello World!"
+        android:text="Hello Android!"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textSize="24dp"
+        android:textColor="#37ff00" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click"
+        android:id="@+id/button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:onClick="click" />
 </RelativeLayout>
