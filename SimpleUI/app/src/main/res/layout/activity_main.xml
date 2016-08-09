@@ -49,14 +49,14 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Black Tea"
+            android:drawableRight="@drawable/blacktea"
             android:id="@+id/blackTeaRadioButton"
             android:checked="true" />
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Green Tea"
+            android:drawableRight="@drawable/greentea"
             android:id="@+id/greenTeaRadioButton"
             android:checked="false" />
     </RadioGroup>
