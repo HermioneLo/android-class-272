@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         String text = editText.getText().toString();
         text = text + " Order:" + drink;
         textView.setText(text);
+
+        editText.setText("");
     }
 
 }
