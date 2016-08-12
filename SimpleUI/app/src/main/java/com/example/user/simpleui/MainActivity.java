@@ -132,6 +132,11 @@ public class MainActivity extends AppCompatActivity {
                 String result = data.getStringExtra("result");
                 Toast.makeText(this, result, Toast.LENGTH_LONG).show();
             }
+            if(resultCode == RESULT_CANCELED)
+            {
+                String result = data.getStringExtra("取消菜單");
+                Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+            }
         }
     }
 

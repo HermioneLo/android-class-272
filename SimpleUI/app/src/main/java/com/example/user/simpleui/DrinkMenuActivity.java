@@ -77,6 +77,15 @@ public class DrinkMenuActivity extends AppCompatActivity {
         finish();
     }
 
+    public void cancel(View view)
+    {
+        Intent intent = new Intent();
+        intent.putExtra("取消菜單", String.valueOf("取消蔡單"));
+
+        setResult(RESULT_CANCELED, intent);
+        finish();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
