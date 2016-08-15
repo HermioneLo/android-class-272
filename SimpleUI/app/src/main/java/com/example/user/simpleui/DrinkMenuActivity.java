@@ -27,7 +27,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
 
     int total = 0;
     List<Drink> drinkList = new ArrayList<>();
-    List<DrinkOrder> drinkOrderList = new ArrayList<>();
+    ArrayList<DrinkOrder> drinkOrderList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +36,14 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
 
         setData();
 
+        Intent intent = getIntent();
+        drinkOrderList = intent.getParcelableArrayListExtra("result");
+
+
         drinkMenuListView = (ListView)findViewById(R.id.drinkMenuListView);
         totalTextView = (TextView)findViewById(R.id.totalTextView);
+
+        updateTotalTextView();
 
         drinkMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -76,7 +82,7 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
     public void done(View view)
     {
         Intent intent = new Intent();
-        intent.putExtra("result", String.valueOf(total));
+        intent.putExtra("result", drinkOrderList);
 
         setResult(RESULT_OK, intent);
         finish();
@@ -174,7 +180,8 @@ public class DrinkMenuActivity extends AppCompatActivity implements DrinkOrderDi
 
     private void  updateTotalTextView() {
         int total = 0;
-        for (DrinkOrder drinkOrder : drinkOrderList) {
+        for (DrinkOrder drinkOrder : drinkOrderList)
+        {
             total += drinkOrder.lNumber * drinkOrder.drink.lPrice + drinkOrder.mNumber * drinkOrder.drink.mPrice;
         }
 
