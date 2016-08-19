@@ -8,7 +8,18 @@ import android.widget.TextView;
 
 import android.os.Handler;
 
-public class OrderDetailActivity extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class OrderDetailActivity extends AppCompatActivity implements GeoCodingTask.GeocodingCallback{
+
+    TextView latlngTextView;
+    GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,10 +29,11 @@ public class OrderDetailActivity extends AppCompatActivity {
         TextView noteTextView = (TextView)findViewById(R.id.noteTextView);
         TextView storeInfoTextView = (TextView)findViewById(R.id.storeInfoTextView);
         TextView drinkOrderResultsTextView = (TextView)findViewById(R.id.drinkOrderResultsTextView);
-        final TextView latLmgTextView = (TextView)findViewById(R.id.latLngTextView);
+        latlngTextView = (TextView)findViewById(R.id.latLngTextView);
 
         Intent intent = getIntent();
         Order order = intent.getParcelableExtra("order");
+//        String address = order.getStoreInfo().split(",");
         noteTextView.setText(order.getNote());
         storeInfoTextView.setText(order.getStoreInfo());
         String resultText = "";
@@ -34,6 +46,31 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
         drinkOrderResultsTextView.setText(resultText);
 
-        (new GeoCodingTask()).execute("");
+        MapFragment fragment = (MapFragment)getFragmentManager().findFragmentById(R.id.mapFragment);
+        fragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                map = googleMap;
+                (new GeoCodingTask(OrderDetailActivity.this)).execute("台北市大安區羅斯福路台北市大安區羅斯福路四段一號");
+            }
+        });
+
+
+    }
+
+    @Override
+    public void done(double[] latlng) {
+        if (latlng!=null)
+        {
+            String latlngString = String.valueOf(latlng[0]+","+latlng[1]);
+            latlngTextView.setText(latlngString);
+
+            LatLng latLng = new LatLng(latlng[0], latlng[1]);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("NTU");
+
+            map.moveCamera(cameraUpdate);
+            map.addMarker(markerOptions);
+        }
     }
 }
